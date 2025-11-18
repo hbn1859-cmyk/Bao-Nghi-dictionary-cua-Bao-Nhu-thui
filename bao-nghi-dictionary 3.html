@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bảo Nghi Dictionary</title>
+  <style>
+    :root{
+      --bg:#fff7ff;
+      --card:#ffffff;
+      --accent:#ff7ab6;
+      --accent-2:#9b59b6;
+      --muted:#6b6b6b;
+      --glass: rgba(255,255,255,0.7);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Inter", "Segoe UI", system-ui, Roboto, sans-serif;
+      background: radial-gradient(1200px 400px at 10% 10%, #fff1f6, transparent),
+                  linear-gradient(180deg,#fff7ff 0%, #f8f3ff 100%);
+      color:#222;
+      padding:28px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+    }
+    .wrap{
+      width:100%;
+      max-width:760px;
+      border-radius:18px;
+      padding:26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--glass));
+      box-shadow: 0 10px 30px rgba(155,89,182,0.12);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(155,89,182,0.06);
+    }
+    header{
+      margin-bottom:14px;
+    }
+    h1{
+      font-size:24px;
+      margin:0;
+      color:var(--accent-2);
+      text-align:center;
+      font-weight:700;
+    }
+    p.lead{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:15px;
+      text-align:center;
+    }
+    .controls{
+      display:flex;
+      gap:10px;
+      margin-top:16px;
+      align-items:center;
+      justify-content:center;
+    }
+    .search{
+      flex:1;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      background: #fff;
+      border-radius:12px;
+      padding:8px 12px;
+      box-shadow: 0 6px 18px rgba(155,89,182,0.06);
+      border: 1px solid rgba(0,0,0,0.04);
+      max-width:380px;
+      margin:auto;
+    }
+    .search input{
+      border:0;outline:0;font-size:15px;background:transparent;width:100%;
+    }
+    .btn{
+      background:var(--accent);
+      color:white;border:0;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;
+      box-shadow: 0 6px 16px rgba(255,122,182,0.12);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    @media (max-width:640px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      background:var(--card);
+      padding:14px 16px;
+      border-radius:14px;
+      position:relative;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.04);
+      border:1px solid rgba(155,89,182,0.04);
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 18px 30px rgba(155,89,182,0.08);
+    }
+    .phrase{
+      font-weight:700;
+      color:var(--accent-2);
+      font-size:16px;
+      margin-bottom:6px;
+    }
+    .tag{
+      position:absolute;
+      right:10px;
+      top:10px;
+      font-size:12px;
+      color:var(--muted);
+      background:rgba(155,89,182,0.06);
+      padding:4px 8px;
+      border-radius:10px;
+    }
+    .meaning{
+      margin-top:8px;
+      color:#4b4b4b;
+      font-size:14px;
+      line-height:1.4;
+      display:none;
+    }
+    .meaning.revealed{
+      animation:pop .22s ease both;
+    }
+    @keyframes pop{
+      0%{transform:scale(.98);opacity:0}
+      100%{transform:scale(1);opacity:1}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Bảo Nghi Dictionary</h1>
+      <p class="lead">Bảo Nghi Dictionary của Bảo Như</p>
+
+      <div class="controls">
+        <div class="search" role="search">
+          <input id="q" placeholder="Tìm từ (ví dụ: 'Kệ đi', 'Ổn')" oninput="filterCards()" />
+          <button class="btn" onclick="resetFilter()">Reset</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid" id="cards">
+
+      <div class="card" data-phrase="ổn">
+        <div class="phrase">“Ổn”</div>
+        <div class="tag">né tránh</div>
+        <div class="meaning">Bảo Nghi nói “ổn” nhưng có thể đang né tránh bày tỏ. Có thể mệt, buồn, chưa biết nói thế nào hoặc đang cố không làm người khác lo.</div>
+      </div>
+
+      <div class="card" data-phrase="bình thường">
+        <div class="phrase">“Bình thường”</div>
+        <div class="tag">trì hoãn</div>
+        <div class="meaning">Không hẳn là ổn, nhưng ảnh chưa biết diễn đạt sao. Thật ra ảnh đang trì hoãn việc đối diện với cảm xúc.</div>
+      </div>
+
+      <div class="card" data-phrase="không sao">
+        <div class="phrase">“Không sao”</div>
+        <div class="tag">che giấu</div>
+        <div class="meaning">Bảo Nghi không muốn người khác lo, nhưng thật ra đang có nhiều điều lục đục trong tâm trí làm ảnh trầm tư, lùi lại, tránh né.</div>
+      </div>
+
+      <div class="card" data-phrase="đừng lo">
+        <div class="phrase">“Đừng lo”</div>
+        <div class="tag">sợ phiền</div>
+        <div class="meaning">Bảo Nghi sợ phiền người khác. Ảnh không quen được lo lắng hay được chăm sóc, ảnh chỉ quen lo cho mọi người.</div>
+      </div>
+
+      <div class="card" data-phrase="kệ đi">
+        <div class="phrase">“Kệ đi”</div>
+        <div class="tag">bất lực</div>
+        <div class="meaning">Ảnh bất lực quá, ảnh mệt không muốn tranh đua với đời hay với người nhưng mà đụng là ảnh trụng liền á.</div>
+      </div>
+
+      <div class="card" data-phrase="tí nó hết">
+        <div class="phrase">“Tí nó hết”</div>
+        <div class="tag">hồi phục</div>
+        <div class="meaning">Ảnh đang cần thời gian để phục hồi năng lượng dù mọi thứ nó rối như mớ bòng bong.</div>
+      </div>
+
+      <div class="card" data-phrase="khỏi lo tui">
+        <div class="phrase">“Khỏi lo tui”</div>
+        <div class="tag">muốn yên</div>
+        <div class="meaning">Ảnh sợ bị người khác nhìn thấu, ảnh muốn được yên nhưng có nhiều nhu cầu khác không có ngôn từ để diễn đạt.</div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      const meaning = card.querySelector('.meaning');
+      meaning.style.display = 'none';
+      card.addEventListener('click', (e)=>{
+        if(e.target.tagName.toLowerCase()==='input' || e.target.closest('.search')) return;
+        const visible = meaning.style.display === 'block';
+        document.querySelectorAll('.meaning').forEach(m=>{m.style.display='none';m.classList.remove('revealed');});
+        if(!visible){
+          meaning.style.display='block';
+          meaning.classList.add('revealed');
+        }
+      });
+    });
+
+    function filterCards(){
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(card=>{
+        const text = card.getAttribute('data-phrase') + ' ' + card.textContent;
+        card.style.display = text.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+    function resetFilter(){
+      document.getElementById('q').value='';
+      filterCards();
+    }
+  </script>
+</body>
+</html>
